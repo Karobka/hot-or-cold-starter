@@ -11,9 +11,28 @@ $(document).ready(function(){
   	$("a.close").click(function(){
   		$(".overlay").fadeOut(1000);
   	});
+
+	  /**Generate random whole secretNumber on page load and clicking .new game button. */
+	  
+	  var secretNumber = Math.floor((Math.random() * 100) + 1);
+	  console.log(secretNumber);
+
+	  $(".new").click(function() {
+		  $(".guessBox").children().remove();
+	  });
+
+
+	  $("#guessButton").click(function(event) {
+		  $(".guessBox").append('<li>' + $("#userGuess").val() + '</li>');
+		  $('input[type=text], textarea').val('');
+		  event.preventDefault(); 
+	  });
+
+
+
 /*
 
-Generate random whole secretNumber on page load.
+
 
 When user clicks #guessButton:
 	Check for empty input.--not needed.
@@ -33,6 +52,7 @@ When user clicks .new
 	Reset #feedback to default guess message.
 	Remove user guess li's from .guessBox
 	Reset #count to zero.
+	Generate random number.
 */
 
 });
