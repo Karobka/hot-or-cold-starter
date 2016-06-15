@@ -23,9 +23,9 @@ $(document).ready(function () {
 		var userNumber = $("#userGuess").val();
 		console.log("User guessed: " + userGuess.value);
 		event.preventDefault();
-		validateUserGuess(userNumber); //validate the guess
-		//addUserGuess(userNumber); //add the guess to the array and the li.
+		if (validateUserGuess(userNumber)) {return }; //validate the guess and add to ul
 		$("input[type=text], textarea").val("");
+		updateUi();
 	})
 
 		
@@ -34,24 +34,31 @@ $(document).ready(function () {
 		 1a. if so alert error message
 		 2. is input already guessed (already in the array)
 		 	2a. if so alert "already guessed" message
+		3. otherwise push the name to the logs array and add it to the ul.
 	*/
 	function validateUserGuess(guessName) {
 		for (var i = 0; i < guessLogs.length; i++) {
 			if (guessName == guessLogs[i]) {
-				return alert("You already used that number. Choose another one.");
+				alert("You already used that number. Choose another one.");
+				return true;
 			}
 		}
 		if (guessName < 1 || guessName > 100 || guessName % 1 !== 0) {
-			return alert("Please enter a number from 1 to 100 with no decimals and no letters.");
-			
+			alert("Please enter a number from 1 to 100 with no decimals and no letters.");
+			return true;
 		} else {
 			/** Add User Guess to List and Array */
-				guessLogs.push(guessName);
-				console.log("guessLogs so far:" + guessLogs);
-				$("#guessList").append("<li>" + guessName + "</li>");
-			}
-
+			guessLogs.push(guessName);
+			console.log("guessLogs so far:" + guessLogs);
+			$("#guessList").append("<li>" + guessName + "</li>");
 		}
+		return false;
+	}
+
+	function updateUi() {
+		$("#guessList").append("<li>" + "chicken" + "</li>");
+
+	}
 		
 	
 
