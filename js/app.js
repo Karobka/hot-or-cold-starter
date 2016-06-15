@@ -14,14 +14,17 @@ $(document).ready(function () {
 
 	/** Generate random whole secretNumber on page load and clicking .new game button. */
 
-	var secretNumber = Math.floor((Math.random() * 100) + 1);
-	console.log(secretNumber);
+	var secretNumber = function() {
+		Math.floor((Math.random() * 100) + 1);
+		console.log(secretNumber);
+	}
 
 	/** Clicking to Start a New Game */
 	function newGame() {
 		$(".guessBox").children().remove();
 		$("#feedback").text("Make your Guess!");
 		$("#count").text("0");
+		secretNumber();
 		return
 	}
 
