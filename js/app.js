@@ -16,69 +16,52 @@ $(document).ready(function () {
 
 	var secretNumber = Math.floor((Math.random() * 100) + 1);
 	console.log(secretNumber);
+	var guessLogs = [];
 
-	/** Clicking to Start a New Game */
-	function newGame() {
-		$(".guessBox").children().remove();
-		$("#feedback").text("Make your Guess!");
-		$("#count").text("0");
-		secretNumber;
-		return
-	}
-
-	$(".new").click(newGame());
-
-	var userString = $("#userGuess").val();
-	var userInteger = +userString;
-
-	/* Validate Numbers */
-	function validNumbers() {
-		if (userInteger > 100 || userInteger < 1) {
-			alert("Number must be greater than one and less than 100.");
-			$("input[type=text], textarea").val("");
-		}
-		if (userInteger > 100 || userInteger < 1) {
-			alert("Number must be greater than one and less than 100.");
-			$("input[type=text], textarea").val("");
-		}
-		if (userInteger == $("#guessList").children().text()) {
-			alert("You already guessed that number!");
-		}
-		if (userInteger === secretNumber) {
-			alert("You won!  Click New Game to play again.");
-		}
-		$("input[type=text], textarea").val("");
+	/** Get User Guess & Reset Form*/
+	$("#guessButton").click(function() {
+		var userNumber = $("#userGuess").val();
+		console.log("User guessed: " + userGuess.value);
 		event.preventDefault();
-	}
+		validateUserGuess(userNumber); //validate the guess
+		//addUserGuess(userNumber); //add the guess to the array and the li.
+		$("input[type=text], textarea").val("");
+	})
 
-	/** Run Numbers */
-	function runNumbers() {
-		$(".guessBox").append("<li>" + userInteger + "</li>");
-		if (userInteger > (secretNumber + 5) || userInteger < (secretNumber - 5)) {
-			$("#feedback").text("Super Hot");
-		} else if (userInteger > secretNumber + 10 || userInteger < secretNumber - 10) {
-			$("#feedback").text("Hot");
-		} else if (userInteger > secretNumber + 15 || userInteger < secretNumber - 15) {
-			$("#feedback").text("Warm");
-		} else if (userInteger > secretNumber + 20 || userInteger < secretNumber - 20) {
-			$("#feedback").text("Luke Warm");
-		} else if (userInteger > secretNumber + 25 || userInteger < secretNumber - 25) {
-			$("#feedback").text("Cold");
-		} else if (userInteger > secretNumber + 30 || userInteger < secretNumber - 30) {
-			$("#feedback").text("Super Cold");
-		} else {
-			$("#feedback").text("Frozen Solid");
+		
+	/** Validate User Guess
+	 	1. is input a valid number: >1 and <100 and no decimals and isNaN
+		 1a. if so alert error message
+		 2. is input already guessed (already in the array)
+		 	2a. if so alert "already guessed" message
+	*/
+	function validateUserGuess(guessName) {
+		for (var i = 0; i < guessLogs.length; i++) {
+			if (guessName == guessLogs[i]) {
+				return alert("You already used that number. Choose another one.");
+			}
 		}
-	}
+		if (guessName < 1 || guessName > 100 || guessName % 1 !== 0) {
+			return alert("Please enter a number from 1 to 100 with no decimals and no letters.");
+			
+		} else {
+			/** Add User Guess to List and Array */
+				guessLogs.push(guessName);
+				console.log("guessLogs so far:" + guessLogs);
+				$("#guessList").append("<li>" + guessName + "</li>");
+			}
+
+		}
+		
+	
 
 
 
 
 
-	$("#guessButton").click(function (event) {
-		validNumbers();
-		runNumbers();
-	});
+
+
+
 });
 
 
