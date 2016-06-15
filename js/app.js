@@ -1,32 +1,84 @@
 
-$(document).ready(function(){
-	
+$(document).ready(function () {
+
 	/*--- Display information modal box ---*/
-  	$(".what").click(function(){
-    	$(".overlay").fadeIn(1000);
+	$(".what").click(function () {
+		$(".overlay").fadeIn(1000);
 
-  	});
+	});
 
-  	/*--- Hide information modal box ---*/
-  	$("a.close").click(function(){
-  		$(".overlay").fadeOut(1000);
-  	});
+	/*--- Hide information modal box ---*/
+	$("a.close").click(function () {
+		$(".overlay").fadeOut(1000);
+	});
 
-	  /**Generate random whole secretNumber on page load and clicking .new game button. */
-	  
-	  var secretNumber = Math.floor((Math.random() * 100) + 1);
-	  console.log(secretNumber);
+	/** Generate random whole secretNumber on page load and clicking .new game button. */
 
-	  $(".new").click(function() {
-		  $(".guessBox").children().remove();
-	  });
+	var secretNumber = Math.floor((Math.random() * 100) + 1);
+	console.log(secretNumber);
+
+	/** Clicking to Start a New Game */
+	function newGame() {
+		$(".guessBox").children().remove();
+		$("#feedback").text("Make your Guess!");
+		$("#count").text("0");
+		return
+	}
+
+	$(".new").click(newGame());
+
+	var userString = $("#userGuess").val();
+	var userInteger = +userString;
+
+	/* Validate Numbers */
+	function validNumbers() {
+		if (userInteger > 100 || userInteger < 1) {
+			alert("Number must be greater than one and less than 100.");
+			$("input[type=text], textarea").val("");
+		}
+		if (userInteger > 100 || userInteger < 1) {
+			alert("Number must be greater than one and less than 100.");
+			$("input[type=text], textarea").val("");
+		}
+		if (userInteger == $("#guessList").children().text()) {
+			alert("You already guessed that number!");
+		}
+		if (userInteger === secretNumber) {
+			alert("You won!  Click New Game to play again.");
+		}
+		$("input[type=text], textarea").val("");
+		event.preventDefault();
+	}
+
+	/** Run Numbers */
+	function runNumbers() {
+		$(".guessBox").append("<li>" + userInteger + "</li>");
+		if (userInteger > (secretNumber + 5) || userInteger < (secretNumber - 5)) {
+			$("#feedback").text("Super Hot");
+		} else if (userInteger > secretNumber + 10 || userInteger < secretNumber - 10) {
+			$("#feedback").text("Hot");
+		} else if (userInteger > secretNumber + 15 || userInteger < secretNumber - 15) {
+			$("#feedback").text("Warm");
+		} else if (userInteger > secretNumber + 20 || userInteger < secretNumber - 20) {
+			$("#feedback").text("Luke Warm");
+		} else if (userInteger > secretNumber + 25 || userInteger < secretNumber - 25) {
+			$("#feedback").text("Cold");
+		} else if (userInteger > secretNumber + 30 || userInteger < secretNumber - 30) {
+			$("#feedback").text("Super Cold");
+		} else {
+			$("#feedback").text("Frozen Solid");
+		}
+	}
 
 
-	  $("#guessButton").click(function(event) {
-		  $(".guessBox").append('<li>' + $("#userGuess").val() + '</li>');
-		  $('input[type=text], textarea').val('');
-		  event.preventDefault(); 
-	  });
+
+
+
+	$("#guessButton").click(function (event) {
+		validNumbers();
+		runNumbers();
+	});
+});
 
 
 
@@ -55,6 +107,5 @@ When user clicks .new
 	Generate random number.
 */
 
-});
 
 
