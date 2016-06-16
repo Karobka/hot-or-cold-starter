@@ -39,8 +39,11 @@ $(document).ready(function () {
 		$("#feedback").text("Make your Guess!");
 		$("#guessList").children().remove();
 		$("#guessButton").show();
+		$("#secretreveal").hide();
+		$("#userGuess").show();
 	}
 
+	//Start a new game on clicking New
 	$(".new").click(function () {
 		newGame();
 	});
@@ -75,7 +78,9 @@ $(document).ready(function () {
 		}else if (userNumber == secretNumber) {
 			alert("You win!  Click New Game to play again.");
 			$("#guessButton").hide();
+			$("#userGuess").hide();
 			$("#feedback").text("You Won!");
+			$("#secretreveal").text("The number was " + secretNumber).show();
 		}else {
 			updateUi(userNumber);
 			$("#count").text(currentGuessCount++)
