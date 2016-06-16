@@ -18,7 +18,7 @@ $(document).ready(function () {
 	var secretNumber = Math.floor((Math.random() * 100) + 1);
 	console.log(secretNumber);
 	var guessLogs = [];
-	var currentGuessCount = 0;
+	var currentGuessCount = 1;
 	
 
 	/** Get User Guess & Reset Form*/
@@ -28,9 +28,6 @@ $(document).ready(function () {
 		event.preventDefault();
 		$("input[type=text], textarea").val("");
 		validateUserGuess(userNumber);
-
-		//if (validateUserGuess(userNumber)) {return }; //validate the guess and add to ul
-		
 	});
 
 		
@@ -57,6 +54,7 @@ $(document).ready(function () {
 			$("#feedback").text("You Won!");
 		}else {
 			updateUi(userNumber);
+			$("#count").text(currentGuessCount++)
 		}
 		return false;
 	}
@@ -66,11 +64,9 @@ $(document).ready(function () {
 		//add to guess logs
 		guessLogs.push(userNumber);
 		console.log("guessLogs so far:" + guessLogs);
-		//add to ul
+		//add new li to ul
 		$("#guessList").append("<li>" + userNumber + "</li>");
-		
-		currentGuessCount++
-		 
+		//Give feedback based on difference
 		if (Math.abs(secretNumber - userNumber) <= 5) {
 			$("#feedback").text("Super Hot");
 		}else if (Math.abs(secretNumber - userNumber) <= 10) {
@@ -85,46 +81,7 @@ $(document).ready(function () {
 			$("#feedback").text("Super Cold");
 		}else {
 			$("#feedback").text("Frozen Solid");
-		}
-		
-	}
- 
- /**
- if (Math.abs(actual - comparison) <= 10) {
-    //they're within 10
- }
-
-	function calcFeedback() {
-		 diff (Math.abs(secretNumber - 5));
-		if (userNumber <= (secretNumber + 5) || userNumber < (secretNumber - 5)) {
-			$("#feedback").text("Super Hot");
-		} else if (userNumber > (secretNumber + 10) || userNumber < (secretNumber - 10)) {
-			$("#feedback").text("Hot");
-		} else if (userNumber > secretNumber + 15 || userNumber < secretNumber - 15) {
-			$("#feedback").text("Warm");
-		} else if (userNumber > secretNumber + 20 || userNumber < secretNumber - 20) {
-			$("#feedback").text("Luke Warm");
-		} else if (userNumber > secretNumber + 25 || userNumber < secretNumber - 25) {
-			$("#feedback").text("Cold");
-		} else if (userNumber > secretNumber + 30 || userNumber < secretNumber - 30) {
-			$("#feedback").text("Super Cold");
-		} else {
-			$("#feedback").text("Frozen Solid");
-		}
-		}
- */
-	
-
-	//Every time user clicks button run this function 
-	//Get current text variable #count.text() and add +1
-	//Take new variable and replace old # in #count.
-
-	function updateGuessCount(currentGuessCount) {
-		//currentGuessCount += 1;
-		return currentGuessCount += 1;
-		//$("#count").text(currentGuessCount);
-
-		
+		}	
 	}
 });
 
