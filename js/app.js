@@ -19,18 +19,18 @@ $(document).ready(function () {
 	console.log(secretNumber);
 	var guessLogs = [];
 	var currentGuessCount = 0;
-	var userNumber = $("#userGuess").val();
+	
 
 	/** Get User Guess & Reset Form*/
 	$("#guessButton").click(function() {
 		var userNumber = $("#userGuess").val();
 		console.log("User guessed: " + userGuess.value);
 		event.preventDefault();
-		if (validateUserGuess(userNumber)) {return }; //validate the guess and add to ul
 		$("input[type=text], textarea").val("");
-		updateUi(userNumber);
-		updateGuessCount(currentGuessCount);
-		feedbackUpdate();
+		validateUserGuess(userNumber);
+
+		//if (validateUserGuess(userNumber)) {return }; //validate the guess and add to ul
+		
 	});
 
 		
@@ -41,41 +41,33 @@ $(document).ready(function () {
 		 	2a. if so alert "already guessed" message
 		3. otherwise push the name to the logs array and add it to the ul.
 	*/
-	function validateUserGuess(guessName) {
+	function validateUserGuess(userNumber) {
 		for (var i = 0; i < guessLogs.length; i++) {
-			if (guessName == guessLogs[i]) {
+			if (userNumber == guessLogs[i]) {
 				alert("You already used that number. Choose another one.");
 				return true;
 			}
 		}
-		if (guessName < 1 || guessName > 100 || guessName % 1 !== 0) {
+		if (userNumber < 1 || userNumber > 100 || userNumber % 1 !== 0) {
 			alert("Please enter a number from 1 to 100 with no decimals and no letters.");
 			return true;
+		}else {
+			updateUi(userNumber);
 		}
 		return false;
 	}
 
 	/** Add User Guess to List and Array */
-	function updateUi(guessName) {
+	function updateUi(userNumber) {
 		//add to guess logs
-		guessLogs.push(guessName);
+		guessLogs.push(userNumber);
 		console.log("guessLogs so far:" + guessLogs);
 		//add to ul
-		$("#guessList").append("<li>" + guessName + "</li>");
-	}
+		$("#guessList").append("<li>" + userNumber + "</li>");
+		currentGuessCount++
 
-	//Every time user clicks button run this function 
-	//Get current text variable #count.text() and add +1
-	//Take new variable and replace old # in #count.
-
-	function updateGuessCount(currentGuessCount) {
-		//currentGuessCount += 1;
-		return currentGuessCount += 1;
-		//$("#count").text(currentGuessCount);
-	
-	}
-
-	function feedbackUpdate() {
+		
+		
 		if (userNumber > (secretNumber + 5) || userNumber < (secretNumber - 5)) {
 			$("#feedback").text("Super Hot");
 		} else if (userNumber > secretNumber + 10 || userNumber < secretNumber - 10) {
@@ -91,6 +83,19 @@ $(document).ready(function () {
 		} else {
 			$("#feedback").text("Frozen Solid");
 		}
+
+	}
+
+	//Every time user clicks button run this function 
+	//Get current text variable #count.text() and add +1
+	//Take new variable and replace old # in #count.
+
+	function updateGuessCount(currentGuessCount) {
+		//currentGuessCount += 1;
+		return currentGuessCount += 1;
+		//$("#count").text(currentGuessCount);
+
+		
 	}
 });
 
