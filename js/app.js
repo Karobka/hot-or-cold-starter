@@ -1,4 +1,6 @@
 
+
+
 $(document).ready(function () {
 
 	/*--- Display information modal box ---*/
@@ -13,10 +15,11 @@ $(document).ready(function () {
 	});
 
 	/** Generate random whole secretNumber on page load and clicking .new game button. */
-
 	var secretNumber = Math.floor((Math.random() * 100) + 1);
 	console.log(secretNumber);
 	var guessLogs = [];
+	var currentGuessCount = 0;
+	var userNumber = $("#userGuess").val();
 
 	/** Get User Guess & Reset Form*/
 	$("#guessButton").click(function() {
@@ -25,8 +28,10 @@ $(document).ready(function () {
 		event.preventDefault();
 		if (validateUserGuess(userNumber)) {return }; //validate the guess and add to ul
 		$("input[type=text], textarea").val("");
-		updateUi();
-	})
+		updateUi(userNumber);
+		updateGuessCount(currentGuessCount);
+		feedbackUpdate();
+	});
 
 		
 	/** Validate User Guess
@@ -46,29 +51,47 @@ $(document).ready(function () {
 		if (guessName < 1 || guessName > 100 || guessName % 1 !== 0) {
 			alert("Please enter a number from 1 to 100 with no decimals and no letters.");
 			return true;
-		} else {
-			/** Add User Guess to List and Array */
-			guessLogs.push(guessName);
-			console.log("guessLogs so far:" + guessLogs);
-			$("#guessList").append("<li>" + guessName + "</li>");
 		}
 		return false;
 	}
 
-	function updateUi() {
-		$("#guessList").append("<li>" + "chicken" + "</li>");
-
+	/** Add User Guess to List and Array */
+	function updateUi(guessName) {
+		//add to guess logs
+		guessLogs.push(guessName);
+		console.log("guessLogs so far:" + guessLogs);
+		//add to ul
+		$("#guessList").append("<li>" + guessName + "</li>");
 	}
-		
+
+	//Every time user clicks button run this function 
+	//Get current text variable #count.text() and add +1
+	//Take new variable and replace old # in #count.
+
+	function updateGuessCount(currentGuessCount) {
+		//currentGuessCount += 1;
+		return currentGuessCount += 1;
+		//$("#count").text(currentGuessCount);
 	
+	}
 
-
-
-
-
-
-
-
+	function feedbackUpdate() {
+		if (userNumber > (secretNumber + 5) || userNumber < (secretNumber - 5)) {
+			$("#feedback").text("Super Hot");
+		} else if (userNumber > secretNumber + 10 || userNumber < secretNumber - 10) {
+			$("#feedback").text("Hot");
+		} else if (userNumber > secretNumber + 15 || userNumber < secretNumber - 15) {
+			$("#feedback").text("Warm");
+		} else if (userNumber > secretNumber + 20 || userNumber < secretNumber - 20) {
+			$("#feedback").text("Luke Warm");
+		} else if (userNumber > secretNumber + 25 || userNumber < secretNumber - 25) {
+			$("#feedback").text("Cold");
+		} else if (userNumber > secretNumber + 30 || userNumber < secretNumber - 30) {
+			$("#feedback").text("Super Cold");
+		} else {
+			$("#feedback").text("Frozen Solid");
+		}
+	}
 });
 
 
