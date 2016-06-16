@@ -51,6 +51,10 @@ $(document).ready(function () {
 		if (userNumber < 1 || userNumber > 100 || userNumber % 1 !== 0) {
 			alert("Please enter a number from 1 to 100 with no decimals and no letters.");
 			return true;
+		}else if (userNumber == secretNumber) {
+			alert("You win!  Click New Game to play again.");
+			$("#guessButton").hide();
+			$("#feedback").text("You Won!");
 		}else {
 			updateUi(userNumber);
 		}
@@ -64,13 +68,37 @@ $(document).ready(function () {
 		console.log("guessLogs so far:" + guessLogs);
 		//add to ul
 		$("#guessList").append("<li>" + userNumber + "</li>");
+		
 		currentGuessCount++
-
-		
-		
-		if (userNumber > (secretNumber + 5) || userNumber < (secretNumber - 5)) {
+		 
+		if (Math.abs(secretNumber - userNumber) <= 5) {
 			$("#feedback").text("Super Hot");
-		} else if (userNumber > secretNumber + 10 || userNumber < secretNumber - 10) {
+		}else if (Math.abs(secretNumber - userNumber) <= 10) {
+			$("#feedback").text("Hot");
+		}else if (Math.abs(secretNumber - userNumber) <= 15) {
+			$("#feedback").text("Warm");
+		}else if (Math.abs(secretNumber - userNumber) <= 20) {
+			$("#feedback").text("Luke Warm");
+		}else if (Math.abs(secretNumber - userNumber) <= 25) {
+			$("#feedback").text("Cold");
+		}else if (Math.abs(secretNumber - userNumber) <= 30) {
+			$("#feedback").text("Super Cold");
+		}else {
+			$("#feedback").text("Frozen Solid");
+		}
+		
+	}
+ 
+ /**
+ if (Math.abs(actual - comparison) <= 10) {
+    //they're within 10
+ }
+
+	function calcFeedback() {
+		 diff (Math.abs(secretNumber - 5));
+		if (userNumber <= (secretNumber + 5) || userNumber < (secretNumber - 5)) {
+			$("#feedback").text("Super Hot");
+		} else if (userNumber > (secretNumber + 10) || userNumber < (secretNumber - 10)) {
 			$("#feedback").text("Hot");
 		} else if (userNumber > secretNumber + 15 || userNumber < secretNumber - 15) {
 			$("#feedback").text("Warm");
@@ -83,8 +111,9 @@ $(document).ready(function () {
 		} else {
 			$("#feedback").text("Frozen Solid");
 		}
-
-	}
+		}
+ */
+	
 
 	//Every time user clicks button run this function 
 	//Get current text variable #count.text() and add +1
