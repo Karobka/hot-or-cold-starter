@@ -14,12 +14,36 @@ $(document).ready(function () {
 		$(".overlay").fadeOut(1000);
 	});
 
-	/** Generate random whole secretNumber on page load and clicking .new game button. */
-	var secretNumber = Math.floor((Math.random() * 100) + 1);
-	console.log(secretNumber);
+	var secretNumber ;
 	var guessLogs = [];
 	var currentGuessCount = 1;
 	
+	/** Generate random whole secretNumber on page load and clicking .new game button. */
+	function makeNumber() {
+		secretNumber = Math.floor((Math.random() * 100) + 1);
+		console.log(secretNumber);
+	}
+	
+	//Invoke making the number on page load
+	makeNumber();
+
+
+	
+	//Reset content and start new game
+	function newGame() {
+		makeNumber();
+		guessLogs = [];
+		currentGuessCount = 1;
+		$("#count").text(0);
+		$("input[type=text], textarea").val("");
+		$("#feedback").text("Make your Guess!");
+		$("#guessList").children().remove();
+		$("#guessButton").show();
+	}
+
+	$(".new").click(function () {
+		newGame();
+	});
 
 	/** Get User Guess & Reset Form*/
 	$("#guessButton").click(function() {
@@ -59,7 +83,8 @@ $(document).ready(function () {
 		return false;
 	}
 
-	/** Add User Guess to List and Array */
+	/** Add User Guess to List and Array and give 
+	appropriate feedback about their guess*/
 	function updateUi(userNumber) {
 		//add to guess logs
 		guessLogs.push(userNumber);
